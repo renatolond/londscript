@@ -1,0 +1,7 @@
+LIBRARY lond_dll
+DESCRIPTION "Lond's Script DLL"
+EXPORTS
+init_func
+LoadDll
+UnloadDll
+colorir

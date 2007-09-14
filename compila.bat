@@ -1,0 +1,2 @@
+g++.exe -c windowsDll.cpp -o "windowsDll.o" -I"C:/lond/boost_1_34_0"  -DBUILDING_DLL=1   -g
+g++.exe -shared  "windowsDll.o" -L"C:/lond/boost_1_34_0/bin.v2/libs/regex/build/gcc-mingw-3.4.2/release/link-static" -lboost_regex-mgw34-1_34 --no-export-all-symbols --add-stdcall-alias -def lond_dll.def -Wl,--out-implib,"liblond_dll.a" -o "lond_dll.dll"
