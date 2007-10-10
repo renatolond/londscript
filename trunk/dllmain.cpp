@@ -578,6 +578,13 @@ int strToInt ( string str )
 
 void londScript::processaString( vector<string> & vect )
 {
+	/* Usa o corretor */
+
+	if ( getFraseCorretor() )
+	{
+		//corrigeFrase(vect);
+	}
+	
 	/* Colore emoticons */
 	if ( getEmoticons() )
 	{
@@ -832,6 +839,7 @@ void londScript::loadDB ()
 		xchat_command(ph, "ECHO Lembre-se de colocar um arquivo chamado corretor.db no diretório das suas configurações pessoais do XChat");
 		return;
 	}
+	//xchat_command(ph, "ECHO Beleza, carregando as correções...");
 #endif
 
 	string linha = string();
@@ -874,10 +882,43 @@ void londScript::loadDB ()
 void londScript::corrigeFrase (vector<string> &vect)
 {
 	int x = vect.size();
+	string pontuacao;
+	pontuacao = "?!.,@#$%&*(){}[]";
 	for ( int i = 0 ; i < x ; i++ )
 	{
-		string temp = string();
+		string temp = vect[i];
+		string newstring = string();
 
+		for ( unsigned int j = 0 ; j < temp.size(); j++ )
+		{
+			if ( pontuacao.find(temp[j]) == string::npos )
+			{
+				newstring += temp[j];
+			}
+		}
+#ifdef _XCHAT_DLL_
+		xchat_commandf(ph, "ECHO Stripped? %s",newstring.c_str());
+#endif
+
+		string correto = string();
+		if ( (*palavrasDB).find(newstring) != palavrasDB->end() )
+		{
+			correto = (*palavrasDB).find(newstring)->second;
+		}
+
+		if ( correto != "" )
+		{
+			if ( temp.find(newstring) != string::npos )
+			{
+				int size = newstring.size();
+				int pos = temp.find(newstring);
+				temp = temp.substr(0, pos) + correto + temp.substr(pos+size);
+#ifdef _XCHAT_DLL_
+		xchat_commandf(ph, "ECHO newtemp? %s",temp.c_str());
+#endif
+			}
+		}
+		vect[i] = temp;
 	}
 }
 
@@ -1079,8 +1120,8 @@ void londScript::init_cfg (bool &erro, string &retorno, string init_str, char to
 		}
 	}
 	retorno = "Informações Armazenadas";
-	/*if ( getFraseCorretor() )
-		loadDB();*/
+	if ( getFraseCorretor() )
+		loadDB();
 	ignite();
 	erro = false;
 	//xchat_commandf(ph, "ECHO %s", retorno.c_str());
