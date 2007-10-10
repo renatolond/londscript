@@ -64,6 +64,8 @@ int config_lond ( char *word[], char *word_eol[], void *userdata )
 			PontSimb:[^\n\r\t]
 		AntesDepoisPVT: (1|0)
 	*/
+
+
 	string init_str;
 	vector<string> token_str;
 	vector<string> opt;
