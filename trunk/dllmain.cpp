@@ -585,6 +585,13 @@ void londScript::processaString( vector<string> & vect )
 		//corrigeFrase(vect);
 	}
 	
+	/* Usa o corretor */
+
+	if ( getFraseCorretor() )
+	{
+		corrigeFrase(vect);
+	}
+	
 	/* Colore emoticons */
 	if ( getEmoticons() )
 	{
@@ -593,13 +600,6 @@ void londScript::processaString( vector<string> & vect )
 	else if ( getPontuacao() )
 	{
 		colorePontuacao(vect);
-	}
-	
-	/* Usa o corretor */
-
-	if ( getFraseCorretor() )
-	{
-		corrigeFrase(vect);
 	}
 	
 	/* Bota as cores na frase */
