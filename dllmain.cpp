@@ -897,7 +897,7 @@ void londScript::corrigeFrase (vector<string> &vect)
 			}
 		}
 #ifdef _XCHAT_DLL_
-		xchat_commandf(ph, "ECHO Stripped? %s",newstring.c_str());
+		//xchat_commandf(ph, "ECHO Stripped? %s",newstring.c_str());
 #endif
 
 		string correto = string();
@@ -914,7 +914,7 @@ void londScript::corrigeFrase (vector<string> &vect)
 				int pos = temp.find(newstring);
 				temp = temp.substr(0, pos) + correto + temp.substr(pos+size);
 #ifdef _XCHAT_DLL_
-		xchat_commandf(ph, "ECHO newtemp? %s",temp.c_str());
+		//xchat_commandf(ph, "ECHO newtemp? %s",temp.c_str());
 #endif
 			}
 		}
