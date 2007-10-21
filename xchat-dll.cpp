@@ -283,6 +283,21 @@ bool completaNick ( string &str )
 					{
 						string temp2 = xchat_list_str(ph, list, "nick");
 
+						if ( !strcasecmp(temp2.c_str(),temp.c_str()) )
+						{
+							str = temp2;
+							return true;
+						}
+					}
+					xchat_list_free(ph, list);
+				}
+				list = xchat_list_get(ph, "users");
+				if ( list )
+				{
+					while ( xchat_list_next(ph, list) )
+					{
+						string temp2 = xchat_list_str(ph, list, "nick");
+
 						string s_nick = "(.*)" + temp + "(.*)";
 						boost::regex nick(s_nick, boost::regex::icase);
 						if ( boost::regex_match(temp2, nick) )
