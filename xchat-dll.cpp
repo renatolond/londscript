@@ -331,12 +331,13 @@ int colorir ( char *word[], char *word_eol[], void *userdata )
 				vect.erase(vect.begin());
 			}
 		}
-		configs.processaString(vect);
-		treco = unify(vect, ' ');
-		if ( configs.getAutoColor() )
+
+		/* Procurar melhor maneira de evitar o vazio depois. */
+		if ( vect.size() > 0 )
 		{
-			/* Super Bad Fix, Remember to Fix It Later! */
-			if ( treco != "" )
+			configs.processaString(vect);
+			treco = unify(vect, ' ');
+			if ( configs.getAutoColor() )
 			{
 				if ( xchat_get_info(ph,"channel")[0] == '#' )
 					if ( !configs.getNickCompletion() || nick == string())
@@ -348,14 +349,12 @@ int colorir ( char *word[], char *word_eol[], void *userdata )
 				else
 					treco = c_color + configs.getAutoColor_cor() + treco;
 			}
-			else
-			{
-				if ( xchat_get_info(ph,"channel")[0] == '#' )
-					if ( !configs.getNickCompletion() || nick == string())
-						treco = configs.getAutoColor_antes() + c_color + configs.getAutoColor_cor() + treco + configs.getAutoColor_depois();
-					else
-						treco = configs.getNickCompletion_antes() + nick + configs.getNickCompletion_depois() + c_color + configs.getAutoColor_cor() + treco + configs.getAutoColor_depois();
-			}
+		}
+		else
+		{
+			if ( xchat_get_info(ph,"channel")[0] == '#' )
+				if ( !( !configs.getNickCompletion() || nick == string() ) )
+					treco = configs.getNickCompletion_antes() + nick + configs.getNickCompletion_depois() + c_color + configs.getAutoColor_cor() + configs.getAutoColor_depois();
 		}
 	}
 	else
