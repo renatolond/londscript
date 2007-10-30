@@ -530,6 +530,9 @@ vector<string> split ( string str , char separator )
 string unify ( vector<string> vect , char unifier ) 
 {
 	string teste = string();
+
+	if ( vect.size() <= 0 )
+		return "";
 	
 	teste += vect.at(0);
 	
