@@ -335,20 +335,39 @@ int colorir ( char *word[], char *word_eol[], void *userdata )
 		treco = unify(vect, ' ');
 		if ( configs.getAutoColor() )
 		{
-			if ( xchat_get_info(ph,"channel")[0] == '#' )
-				if ( !configs.getNickCompletion() || nick == string())
+			/* Super Bad Fix, Remember to Fix It Later! */
+			if ( treco != "" )
+			{
+				if ( xchat_get_info(ph,"channel")[0] == '#' )
+					if ( !configs.getNickCompletion() || nick == string())
+						treco = configs.getAutoColor_antes() + c_color + configs.getAutoColor_cor() + treco + configs.getAutoColor_depois();
+					else
+						treco = configs.getNickCompletion_antes() + nick + configs.getNickCompletion_depois() + c_color + configs.getAutoColor_cor() + treco + configs.getAutoColor_depois();
+				else if ( configs.getAntesDepoisPVT() )
 					treco = configs.getAutoColor_antes() + c_color + configs.getAutoColor_cor() + treco + configs.getAutoColor_depois();
 				else
-					treco = configs.getNickCompletion_antes() + nick + configs.getNickCompletion_depois() + c_color + configs.getAutoColor_cor() + treco + configs.getAutoColor_depois();
-			else if ( configs.getAntesDepoisPVT() )
-				treco = configs.getAutoColor_antes() + c_color + configs.getAutoColor_cor() + treco + configs.getAutoColor_depois();
+					treco = c_color + configs.getAutoColor_cor() + treco;
+			}
 			else
-				treco = c_color + configs.getAutoColor_cor() + treco;
+			{
+				if ( xchat_get_info(ph,"channel")[0] == '#' )
+					if ( !configs.getNickCompletion() || nick == string())
+						treco = configs.getAutoColor_antes() + c_color + configs.getAutoColor_cor() + treco + configs.getAutoColor_depois();
+					else
+						treco = configs.getNickCompletion_antes() + nick + configs.getNickCompletion_depois() + c_color + configs.getAutoColor_cor() + treco + configs.getAutoColor_depois();
+			}
 		}
 	}
 	else
 	{
 		treco = "ERRO! As configurações precisam ser informadas antes de qualquer operação.";
+		xchat_commandf(ph, "ECHO %s", treco.c_str());
+		return XCHAT_EAT_NONE;
+	}
+
+	if ( treco == "" )
+	{
+		return XCHAT_EAT_NONE;
 	}
 
 	bool optim;
