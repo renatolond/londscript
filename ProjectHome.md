@@ -1,0 +1,2 @@
+Lond's Script is a multipurpose plugin for IRC clients, at this time XChat and mIRC, which implements automatic color on input, colored emoticons and some other things.
+New features will be implemented.
